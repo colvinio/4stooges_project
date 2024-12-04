@@ -9,3 +9,5 @@ Old dataset we looked at with attribute values and bad lyrics:
 2 new datasets with complete lyrics but not attribute values:
 Song lyrics: https://www.kaggle.com/datasets/deepshah16/song-lyrics-dataset/data
 Genius lyrics: https://www.kaggle.com/datasets/carlosgdcj/genius-song-lyrics-with-language-information
+
+Website with good starting point for using an RNN to generate text: https://pytorch.org/tutorials/intermediate/char_rnn_generation_tutorial.html#nlp-from-scratch-generating-names-with-a-character-level-rnn

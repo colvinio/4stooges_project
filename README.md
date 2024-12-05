@@ -14,3 +14,4 @@ Website with good starting point for using an RNN to generate text: https://pyto
 
 Website with tutorial on creating Text Generation using LSTM Networks (Character-based RNN): https://coderzcolumn.com/tutorials/artificial-intelligence/pytorch-text-generation-using-lstm-networks
 
+Website with tutorial on creating lyric generator with RNN: https://www.activestate.com/blog/how-to-build-a-lyrics-generator-with-python-recurrent-neural-networks/

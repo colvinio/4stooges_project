@@ -11,3 +11,6 @@ Song lyrics: https://www.kaggle.com/datasets/deepshah16/song-lyrics-dataset/data
 Genius lyrics: https://www.kaggle.com/datasets/carlosgdcj/genius-song-lyrics-with-language-information
 
 Website with good starting point for using an RNN to generate text: https://pytorch.org/tutorials/intermediate/char_rnn_generation_tutorial.html#nlp-from-scratch-generating-names-with-a-character-level-rnn
+
+Website with tutorial on creating Text Generation using LSTM Networks (Character-based RNN): https://coderzcolumn.com/tutorials/artificial-intelligence/pytorch-text-generation-using-lstm-networks
+

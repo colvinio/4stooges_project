@@ -5,7 +5,9 @@ from torch.utils.data import Dataset
 import torch
 from torch.utils.data import DataLoader
 import torch.nn as nn
+import time
 
+DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 # turns the text chunks into an object. Not fully sure how this part works or why it's its own class, but I assume there must be some funtions from its parent class Dataset that are needed
 class TextDataset(Dataset):
@@ -32,7 +34,7 @@ class RNNone(nn.Module):
 
     def forward(self, x, hidden, cell): # passes the outputs forward to the next layer
         out = self.embedding(x).unsqueeze(1)
-        out = out.concatenate(self.attributes)
+        out = torch.cat(out, self.attributes)
         out, (hidden, cell) = self.rnn(out, (hidden, cell))
         out = self.fc(out).reshape(out.size(0), -1)
         return out, hidden, cell
@@ -56,7 +58,7 @@ class RNNtwo(nn.Module):
     def forward(self, x, hidden, cell): # passes the outputs forward to the next layer
         out = self.embedding(x).unsqueeze(1)
         out, (hidden, cell) = self.rnn(out, (hidden, cell))
-        out = out.concatenate(self.attributes)
+        out = torch.cat(out, self.attributes)
         out = self.fc(out).reshape(out.size(0), -1)
         return out, hidden, cell
 
@@ -75,15 +77,15 @@ class RNNthree(nn.Module):
         self.embedding = nn.Embedding(vocab_size, embed_dim) # embedding layer
         self.rnn_hidden_size = rnn_hidden_size
         self.rnn = nn.LSTM(embed_dim, rnn_hidden_size, batch_first=True) # rnn LSTM layer
-        self.hidden = nn.
+        self.hidden = nn.Linear(rnn_hidden_size + len(attributes), rnn_hidden_size)
         self.fc = nn.Linear(rnn_hidden_size, vocab_size) # fully connected (output) layer
         self.attributes = attributes
 
     def forward(self, x, hidden, cell): # passes the outputs forward to the next layer
         out = self.embedding(x).unsqueeze(1)
         out, (hidden, cell) = self.rnn(out, (hidden, cell))
-        out = out.concatenate(self.attributes)
-        out, (hidden, cell) = self.hidden(out, (hidden, cell)) # THIS LINE MIGHT NEED TO CHANGE, DEPENDING ON HOW TO IMPLEMENT A HIDDEN LAYER
+        out = torch.cat(out, self.attributes)
+        out = self.hidden(out) # THIS LINE MIGHT NEED TO CHANGE, DEPENDING ON HOW TO IMPLEMENT A HIDDEN LAYER
         out = self.fc(out).reshape(out.size(0), -1)
         return out, hidden, cell
 
@@ -102,15 +104,21 @@ class RNNfour(nn.Module):
         self.embedding = nn.Embedding(vocab_size, embed_dim) # embedding layer
         self.rnn_hidden_size = rnn_hidden_size
         self.rnn = nn.LSTM(embed_dim, rnn_hidden_size, batch_first=True) # rnn LSTM layer
-        self.hidden = nn.
+        self.hidden = nn.Linear(rnn_hidden_size, rnn_hidden_size)
         self.fc = nn.Linear(rnn_hidden_size + len(attributes), vocab_size) # fully connected (output) layer
         self.attributes = attributes
 
     def forward(self, x, hidden, cell): # passes the outputs forward to the next layer
         out = self.embedding(x).unsqueeze(1)
         out, (hidden, cell) = self.rnn(out, (hidden, cell))
-        out, (hidden, cell) = self.hidden(out, (hidden, cell)) # THIS LINE MIGHT NEED TO CHANGE, DEPENDING ON HOW TO IMPLEMENT A HIDDEN LAYER
-        out = out.concatenate(self.attributes)
+        # out, (hidden, cell) = self.hidden(out, (hidden, cell)) # THIS LINE MIGHT NEED TO CHANGE, DEPENDING ON HOW TO IMPLEMENT A HIDDEN LAYER
+        out = self.hidden(out)
+        print('Out is:')
+        print(out)
+        print('Attributes are:')
+        print(self.attributes)
+
+        out = torch.cat(out, self.attributes)
         out = self.fc(out).reshape(out.size(0), -1)
         return out, hidden, cell
 
@@ -214,11 +222,26 @@ def generate(model, seed_str, len_generated_text=50, temperature=.8, top_p=0.8):
 
 def main():
 
+    start_time = time.time()
+
+    print('-------------------------------------------')
+    print('Opening and parsing dataset')
+    print('Time: ' + str(time.time() - start_time))
+    print('-------------------------------------------')
+
 
     ### loads the dataset
     dataset = pandas.read_csv("songs_cleaned.csv")
     dataset['lyrics_y']
 
+    ### removes the attributes we don't want to use, turns the ones we want into a tensor
+    weird_attributes = ['world/life', 'shake the audience', 'family/gospel', 'communication', 'music', 'like/girls', 'feelings', 'loudness', 'instrumentalness', 'valence']
+    dataset.drop(weird_attributes, axis=1)
+
+    # turn the attributes that we want into a tensor
+    good_attributes = ['dating', 'violence', 'romantic', 'obscene', 'sadness', 'danceability', 'energy', 'acousticness', 'night/time', 'movement/places', 'light/visual perceptions', 'family/spiritual']
+    attribute_data = dataset[good_attributes]
+    attribute_data = torch.from_numpy(attribute_data.values).float()
 
     ### removes all punctuation from the lyrics (need to change this so that \n newline characters aren't removed too tho
     # set so that only words that aren't already in the set can get added
@@ -260,10 +283,10 @@ def main():
     # makes chunks for all of the lyrics of however many words in a row
     text_chunks = [text_encoded[i:i+chunk_size] for i in range(len(text_encoded)-chunk_size+1)]
 
-    # for every sequence, break the chunk up into the previously seen words and the target word
-    for seq in text_chunks[:1]:
-        input_seq = seq[:seq_length]
-        target = seq[seq_length]
+    # # for every sequence, break the chunk up into the previously seen words and the target word
+    # for seq in text_chunks[:1]:
+    #     input_seq = seq[:seq_length]
+    #     target = seq[seq_length]
 
     # turning the text chunks into a dataset we can use
     seq_dataset = TextDataset(torch.tensor(text_chunks))
@@ -274,19 +297,22 @@ def main():
 
     ### creating the model
 
+    print('-------------------------------------------')
+    print('Creating model')
+    print('Time: ' + str(time.time() - start_time))
+    print('-------------------------------------------')
+
     # vocab size is used to create the size of the embedding layer
     vocab_size = len(word_array)
     # i THINK this is how many outputs the embedding layer has. So, the embedding layer maps however many unique words we have into 256 values
     embed_dim = 256
     rnn_hidden_size = 512 # THIS IS ACTUALLY THE LSTM LAYER SIZE
-    hidden_layer_size = 
-
+    # hidden_layer_size = 
 
     # initialize our model
-    model = RNN(vocab_size, embed_dim, rnn_hidden_size)
+    model = RNNfour(vocab_size, embed_dim, rnn_hidden_size, attribute_data)
 
     # create GPU device and move the model to it if the GPU is available
-    DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     model = model.to(DEVICE)
 
 
@@ -296,6 +322,11 @@ def main():
 
     # WANT TO LOOK AT HOW MANY BATCHES WE HAVE TOTAL, AND AT A MINIMUM WE NEED AT LEAST THAT MANY EPOCHS
     num_epochs = 1000 # 1 epoch is just through one batch, not every single instance
+
+    print('-------------------------------------------')
+    print('Training the model')
+    print('Time: ' + str(time.time() - start_time))
+    print('-------------------------------------------')
 
     # training the model
     model.train()

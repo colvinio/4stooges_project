@@ -16,19 +16,25 @@ Website with tutorial on creating Text Generation using LSTM Networks (Character
 
 Website with tutorial on creating lyric generator with RNN: https://www.activestate.com/blog/how-to-build-a-lyrics-generator-with-python-recurrent-neural-networks/
 
+Here's the link to the guy talking about the code I'm reusing: https://www.youtube.com/watch?v=nzRIXaYAaqE&t=829s
+There a link in the bio of the video to the website that he is scrolling through on the video if you want to take a look at that as well.
 
 
 # To do:
 
-In train_model.py I've moved all the code that was in tokenizing.ipynb so that it is more easily runnable. I've also commented everything so hopefully it's clear what is happening.
+In train_model.py I've moved all the code that was in tokenizing.ipynb so that it is more easily runnable. I've also commented everything so hopefully it's clear what is happening. There are 4 RNN classes right now, each one is slightly different. Depending on how long training takes we can test multiple of them, or we can just pick one of them.
 
-There are 4 RNN classes right now, each one is slightly different. RNNthree and RNNfour still need to get finished because I've not finished implementing the hidden layer.
+The biggest thing left to do is reparsing the data in a different way so that the model can be trained.
+After that, we have to actually train the model.
+Depending on how long it takes to train the model once the implementation is correct, we can test the other models/hyperparameters. 
 
-The most important thing we need to do besides figure out the hidden layer is figure out how to use the attribute values when generating new lyrics.
+More important that creating a working model is having a complete report and presentation.
 
 Other things to do:
 1. Change the tokenize() function so that it breaks a string up into individual words plus the newline character, instead of how it currently breaks strings into individual words and periods
-2. When we parse the dataset we only want to keep certain attribute values. If you go to the email to adam with our check-in pdf, in the pdf there's a list of the 12 attribute values we want to use. We need to get rid of all the other attribute values from our instances
+2. If we want a quantitative test of our model performance, figure that out
 
-Here's the link to the guy talking about the code I'm reusing: https://www.youtube.com/watch?v=nzRIXaYAaqE&t=829s
-There a link in the bio of the video to the website that he is scrolling through on the video if you want to take a look at that as well.
+Figures we need to make for our final report/presentation:
+1. Histograms of each of the 12 attributes we are using to show the ranges that they span.
+2. Figure showing the architecture of our neural network models. This will probably have to be made in google drawings/manually, not coded
+3. Some sort of figure to display our model outputs

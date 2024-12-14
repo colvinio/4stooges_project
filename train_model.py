@@ -168,7 +168,7 @@ def top_p_sampling(logits, temperature=.8, top_p=0.8):
     return torch.tensor(next_word_index).to(DEVICE)
 
 
-# turns a string (I think) into a list of each unique word with periods included
+# turns a string into a list of each unique word with periods included
 # NEED TO CHANGE THIS FUNCTION SO THAT RATHER THAN INCLUDING WORDS AND PERIODS, IT INCLUDES WORDS AND THE NEWLINE CHARACTER
 def tokenize(doc):
     # Exclude period from the punctuation list

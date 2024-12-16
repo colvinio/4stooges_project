@@ -28,13 +28,12 @@ class RNNone(nn.Module):
         super().__init__()
         self.embedding = nn.Embedding(vocab_size, embed_dim) # embedding layer
         self.rnn_hidden_size = rnn_hidden_size
-        self.rnn = nn.LSTM(embed_dim + len(attributes), rnn_hidden_size, batch_first=True) # rnn LSTM layer
+        self.rnn = nn.LSTM(embed_dim + attributes, rnn_hidden_size, batch_first=True) # rnn LSTM layer
         self.fc = nn.Linear(rnn_hidden_size, vocab_size) # fully connected (output) layer
-        self.attributes = attributes
 
-    def forward(self, x, hidden, cell): # passes the outputs forward to the next layer
+    def forward(self, x, hidden, cell, attributes): # passes the outputs forward to the next layer
         out = self.embedding(x).unsqueeze(1)
-        out = torch.cat(out, self.attributes)
+        out = torch.cat(out, attributes)
         out, (hidden, cell) = self.rnn(out, (hidden, cell))
         out = self.fc(out).reshape(out.size(0), -1)
         return out, hidden, cell
@@ -52,13 +51,12 @@ class RNNtwo(nn.Module):
         self.embedding = nn.Embedding(vocab_size, embed_dim) # embedding layer
         self.rnn_hidden_size = rnn_hidden_size
         self.rnn = nn.LSTM(embed_dim, rnn_hidden_size, batch_first=True) # rnn LSTM layer
-        self.fc = nn.Linear(rnn_hidden_size + len(attributes), vocab_size) # fully connected (output) layer
-        self.attributes = attributes
+        self.fc = nn.Linear(rnn_hidden_size + attributes, vocab_size) # fully connected (output) layer
 
-    def forward(self, x, hidden, cell): # passes the outputs forward to the next layer
+    def forward(self, x, hidden, cell, attributes): # passes the outputs forward to the next layer
         out = self.embedding(x).unsqueeze(1)
         out, (hidden, cell) = self.rnn(out, (hidden, cell))
-        out = torch.cat(out, self.attributes)
+        out = torch.cat(out, attributes)
         out = self.fc(out).reshape(out.size(0), -1)
         return out, hidden, cell
 
@@ -77,14 +75,13 @@ class RNNthree(nn.Module):
         self.embedding = nn.Embedding(vocab_size, embed_dim) # embedding layer
         self.rnn_hidden_size = rnn_hidden_size
         self.rnn = nn.LSTM(embed_dim, rnn_hidden_size, batch_first=True) # rnn LSTM layer
-        self.hidden = nn.Linear(rnn_hidden_size + len(attributes), rnn_hidden_size)
+        self.hidden = nn.Linear(rnn_hidden_size + attributes, rnn_hidden_size)
         self.fc = nn.Linear(rnn_hidden_size, vocab_size) # fully connected (output) layer
-        self.attributes = attributes
 
-    def forward(self, x, hidden, cell): # passes the outputs forward to the next layer
+    def forward(self, x, hidden, cell, attributes): # passes the outputs forward to the next layer
         out = self.embedding(x).unsqueeze(1)
         out, (hidden, cell) = self.rnn(out, (hidden, cell))
-        out = torch.cat(out, self.attributes)
+        out = torch.cat(out, attributes)
         out = self.hidden(out) # THIS LINE MIGHT NEED TO CHANGE, DEPENDING ON HOW TO IMPLEMENT A HIDDEN LAYER
         out = self.fc(out).reshape(out.size(0), -1)
         return out, hidden, cell
@@ -105,10 +102,9 @@ class RNNfour(nn.Module):
         self.rnn_hidden_size = rnn_hidden_size
         self.rnn = nn.LSTM(embed_dim, rnn_hidden_size, batch_first=True) # rnn LSTM layer
         self.hidden = nn.Linear(rnn_hidden_size, rnn_hidden_size)
-        self.fc = nn.Linear(rnn_hidden_size + len(attributes), vocab_size) # fully connected (output) layer
-        self.attributes = attributes
+        self.fc = nn.Linear(rnn_hidden_size + attributes, vocab_size) # fully connected (output) layer
 
-    def forward(self, x, hidden, cell): # passes the outputs forward to the next layer
+    def forward(self, x, hidden, cell, attributes): # passes the outputs forward to the next layer
         out = self.embedding(x).unsqueeze(1)
         out, (hidden, cell) = self.rnn(out, (hidden, cell))
         # out, (hidden, cell) = self.hidden(out, (hidden, cell)) # THIS LINE MIGHT NEED TO CHANGE, DEPENDING ON HOW TO IMPLEMENT A HIDDEN LAYER
@@ -116,9 +112,9 @@ class RNNfour(nn.Module):
         print('Out is:')
         print(out)
         print('Attributes are:')
-        print(self.attributes)
+        print(attributes)
 
-        out = torch.cat(out, self.attributes)
+        out = torch.cat(out, attributes)
         out = self.fc(out).reshape(out.size(0), -1)
         return out, hidden, cell
 
@@ -168,24 +164,24 @@ def top_p_sampling(logits, temperature=.8, top_p=0.8):
     return torch.tensor(next_word_index).to(DEVICE)
 
 
-# turns a string into a list of each unique word with periods included
-# NEED TO CHANGE THIS FUNCTION SO THAT RATHER THAN INCLUDING WORDS AND PERIODS, IT INCLUDES WORDS AND THE NEWLINE CHARACTER
+# turns a string into a list of each unique word with newline characters included
 def tokenize(doc):
-    # Exclude period from the punctuation list
-    punctuation_to_remove = string.punctuation.replace('.', '')
 
-    # Create translation table that removes specified punctuation except period
+    punctuation_to_remove = string.punctuation.replace('\n', '')
+
     table = str.maketrans('', '', punctuation_to_remove)
 
-    tokens = doc.split()
-    # Further split tokens by period and keep periods as separate tokens
-    split_tokens = []
-    for token in tokens:
-        split_tokens.extend(token.replace('.', ' .').split())
+    lines = doc.splitlines(keepends=True)
 
-    tokens = [w.translate(table) for w in split_tokens]
-    tokens = [word for word in tokens if word.isalpha() or word == '.']
-    tokens = [word.lower() for word in tokens]
+    tokens = []
+    for line in lines:
+        line = line.translate(table)
+        words = line.split()
+        tokens.extend(words)
+        if line.endswith('\n'):
+            tokens.append('\n')
+
+    tokens = [token.lower() for token in tokens]
 
     return tokens
 
@@ -219,17 +215,7 @@ def generate(model, seed_str, len_generated_text=50, temperature=.8, top_p=0.8):
     return generated_str.replace(" . ", ". ")
 
 
-
-def main():
-
-    start_time = time.time()
-
-    print('-------------------------------------------')
-    print('Opening and parsing dataset')
-    print('Time: ' + str(time.time() - start_time))
-    print('-------------------------------------------')
-
-
+def parse_data():
     ### loads the dataset
     dataset = pandas.read_csv("songs_cleaned.csv")
     dataset['lyrics_y']
@@ -240,60 +226,111 @@ def main():
 
     # turn the attributes that we want into a tensor
     good_attributes = ['dating', 'violence', 'romantic', 'obscene', 'sadness', 'danceability', 'energy', 'acousticness', 'night/time', 'movement/places', 'light/visual perceptions', 'family/spiritual']
-    attribute_data = dataset[good_attributes]
-    attribute_data = torch.from_numpy(attribute_data.values).float()
 
     ### removes all punctuation from the lyrics (need to change this so that \n newline characters aren't removed too tho
     # set so that only words that aren't already in the set can get added
     unique_words = set()
-    tokens = []
+    unique_words.add("\n")
 
-    i=0
     for lyrics in dataset['lyrics_y']:
         if isinstance(lyrics, str):
 
             # split the lyric string into individual word strings
-            words = lyrics.split() 
+            words = tokenize(lyrics)
+
             for word in words:
-                # good word is the word after punctuation has been removed
-                goodword = ''.join(char for char in word if char not in string.punctuation)
+                unique_words.add(word.lower())
 
-                unique_words.add(goodword.lower())
-                tokens.append(goodword.lower())
-            i += 1
     vocab = sorted(unique_words) # vocab is the set of every unique word in the dataset
-
 
     ### gives every unique word a unique number that represents that word
     word2int = {word:i for i, word in enumerate(vocab)} # makes a dictionary with a corresponding number for each unique word
     word_array = np.array(vocab) # numpy array of all possible words
 
-    # encodes the text from the lyrics as numbers
-    text_encoded = np.array(
-        [word2int[word] for word in tokens],
-        dtype=np.int32
-    )
+    # going to add these to the dataframe after looping through all the lyrics
+    sequence_list = []
+    attribute_tensor_list = []
+
+    ### now need to re-loop through the dataset, and turn each lyrics into the DataLoader object
+    for index, row in dataset.iterrows():
+
+        tokens = tokenize(row['lyrics_y'])
+
+        # encodes the text from the lyrics as numbers
+        text_encoded = np.array(
+            [word2int[word] for word in tokens],
+            dtype=np.int32
+        )
+
+        ### a sequence/chunk is used to make a list of previously seen words/the next word to come
+        seq_length = 8
+        chunk_size = 9
+        # not sure how to do this without batch size, so the batch size will be however many words are in that song
+        batch_size = len(tokens) 
+
+        # makes chunks for all of the lyrics of however many words in a row
+        text_chunks = [text_encoded[i:i+chunk_size] for i in range(len(text_encoded)-chunk_size+1)]
+
+        # # for every sequence, break the chunk up into the previously seen words and the target word
+        # for seq in text_chunks[:1]:
+        #     input_seq = seq[:seq_length]
+        #     target = seq[seq_length]
+
+        # turning the text chunks into a dataset we can use
+        seq_dataset = TextDataset(torch.tensor(text_chunks))
+
+        # makes the sequences iterable --> want one of these for each song (drop_last was True but it makes more sense for it to be False?)
+        seq_dl = DataLoader(seq_dataset, batch_size=batch_size, shuffle=True, drop_last=False)
+
+        # want to add the seq_dl to the original dataset, plus the attributes that correspond to the song
+        sequence_list.append(seq_dl)
+        
+        # need to turn the attribute data into a tensor
+        attribute_data = row[good_attributes]
+        attributes = attribute_data.apply(pandas.to_numeric, errors='coerce') # fixing a type error in the next line
+        attribute_data = torch.tensor(attributes)
+        attribute_tensor_list.append(attribute_data)
+
+        if index % 50 == 0:
+            print(index)
+
+    dataset['text_seq'] = sequence_list
+    dataset['attribute_tensor'] = attribute_tensor_list
+
+    dataset.to_csv('training_data.csv')
+    
 
 
-    ### a sequence/chunk is the a list of so many words, which is used to make a list of previously seen words/the next word to come
-    seq_length = 8
-    chunk_size = 9
-    batch_size = 64 # I think this means that 64 text chunks (where each text chunk is chunk_size words) are used, not that 64 different songs are used
+def main():
 
-    # makes chunks for all of the lyrics of however many words in a row
-    text_chunks = [text_encoded[i:i+chunk_size] for i in range(len(text_encoded)-chunk_size+1)]
+    start_time = time.time()
 
-    # # for every sequence, break the chunk up into the previously seen words and the target word
-    # for seq in text_chunks[:1]:
-    #     input_seq = seq[:seq_length]
-    #     target = seq[seq_length]
+    print('-------------------------------------------')
+    print('Opening and parsing dataset')
+    print('Time: ' + str(time.time() - start_time))
+    print('-------------------------------------------')
 
-    # turning the text chunks into a dataset we can use
-    seq_dataset = TextDataset(torch.tensor(text_chunks))
+    #parse_data()
+    dataset = pandas.read_csv("training_data.csv")
 
-    # i don't know what this is doing
-    seq_dl = DataLoader(seq_dataset, batch_size=batch_size, shuffle=True, drop_last=True) # don't know what's happening with DataLoader
+    ### removes all punctuation from the lyrics (need to change this so that \n newline characters aren't removed too tho
+    # set so that only words that aren't already in the set can get added
+    unique_words = set()
 
+    for lyrics in dataset['lyrics_y']:
+        if isinstance(lyrics, str):
+
+            # split the lyric string into individual word strings
+            words = tokenize(lyrics)
+
+            for word in words:
+                unique_words.add(word.lower())
+
+    vocab = sorted(unique_words) # vocab is the set of every unique word in the dataset
+
+    ### gives every unique word a unique number that represents that word
+    word2int = {word:i for i, word in enumerate(vocab)} # makes a dictionary with a corresponding number for each unique word
+    word_array = np.array(vocab) # numpy array of all possible words
 
     ### creating the model
 
@@ -306,11 +343,11 @@ def main():
     vocab_size = len(word_array)
     # i THINK this is how many outputs the embedding layer has. So, the embedding layer maps however many unique words we have into 256 values
     embed_dim = 256
-    rnn_hidden_size = 512 # THIS IS ACTUALLY THE LSTM LAYER SIZE
+    rnn_hidden_size = 512 # THIS IS ACTUALLY THE LSTM LAYER SIZE AND THE HIDDEN LAYER SIZE
     # hidden_layer_size = 
 
-    # initialize our model
-    model = RNNfour(vocab_size, embed_dim, rnn_hidden_size, attribute_data)
+    # initialize our model - using an LSTM layer, a hidden layer, and an output layer, passing in attributes before the output layer
+    model = RNNfour(vocab_size, embed_dim, rnn_hidden_size, 12)
 
     # create GPU device and move the model to it if the GPU is available
     model = model.to(DEVICE)
@@ -330,21 +367,38 @@ def main():
 
     # training the model
     model.train()
-    for epoch in range(num_epochs):
+    # for epoch in range(num_epochs):
+    #     hidden, cell = model.init_hidden(batch_size)
+    #     seq_batch, target_batch = next(iter(seq_dl))
+    #     seq_batch = seq_batch.to(DEVICE)
+    #     target_batch = target_batch.to(DEVICE)
+    #     optimizer.zero_grad()
+    #     loss = 0 
+    #     for w in range(seq_length):
+    #         pred, hidden, cell = model(seq_batch[:, w], hidden, cell) # passing whichever batch in to the model with the hidden and cell state
+    #         loss += loss_fn(pred, target_batch[:, w])
+    #     loss.backward()
+    #     optimizer.step()
+    #     loss = loss.item()/seq_length
+    #     if epoch % 10 == 0:
+    #         print(f'Epoch {epoch} loss: {loss:.4f}')
+
+    for index, row in dataset.iterrows():
+        batch_size = len(tokenize(row['lyrics_y']))
         hidden, cell = model.init_hidden(batch_size)
-        seq_batch, target_batch = next(iter(seq_dl))
+        seq_batch, target_batch = next(iter(row['text_seq']))
         seq_batch = seq_batch.to(DEVICE)
         target_batch = target_batch.to(DEVICE)
         optimizer.zero_grad()
         loss = 0 
         for w in range(seq_length):
-            pred, hidden, cell = model(seq_batch[:, w], hidden, cell) # passing whichever batch in to the model with the hidden and cell state
+            pred, hidden, cell = model(seq_batch[:, w], hidden, cell, row['attribute_tensor']) # passing whichever batch in to the model with the hidden and cell state
             loss += loss_fn(pred, target_batch[:, w])
         loss.backward()
         optimizer.step()
         loss = loss.item()/seq_length
-        if epoch % 10 == 0:
-            print(f'Epoch {epoch} loss: {loss:.4f}')
+        if index % 10 == 0:
+            print(f'Song {index} loss: {loss:.4f}')        
 
 
     ### generate a new string

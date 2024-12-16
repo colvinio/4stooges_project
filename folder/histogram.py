@@ -5,7 +5,6 @@ import pandas as pd
 # Replace 'songs_cleaned.csv' with the path to your actual CSV file
 data = pd.read_csv("songs_cleaned.csv")
 
-#  'family/spiritual'
 attribute = 'family/spiritual'
 
 # Replace problematic characters in the attribute string

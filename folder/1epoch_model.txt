@@ -1,0 +1,37 @@
+i used to tell me 
+ oh tell you to you 
+ all the lord is a pair 
+ so i say i walk around a ten 
+ when i be more than that 
+ so i dont matter in the time of this 
+ and forth me stop the new 
+ one to be been west 
+ so i was just how you say that 
+ we go always on my pain 
+ so i know me to 
+ the fame know 
+ now ive been around the room and on the beast 
+ my one i was 
+ so i be alright 
+ for a doubt of the building 
+ the new power 
+ i got me right 
+ the ground of the first heart 
+ i go in the last 
+ so listen with my knees 
+ one will still kiss that i wont love it 
+ all
+
+dating = 0.01
+violence = 0.05
+romantic = 0.05
+obscene = 0.01
+sadness = 0.05
+danceability = 0.5
+energy = 0.9
+acousticness = 0.1
+night/time = 0.05
+movement/places = 0.01
+light/visual perceptions = 0.01
+family/spiritual = 0.05
+Seed string = i

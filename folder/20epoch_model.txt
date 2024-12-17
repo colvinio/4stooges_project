@@ -1,0 +1,38 @@
+i will are 
+ and i do this is that no 
+ my feelings i can do i was going 
+ ill be all my hair and ill be the good 
+ and they get it in me 
+ i hear me do 
+ ill be a true world 
+ now i gotta live 
+ my be to the last 
+ i want to save me 
+ i was 
+ that i hear 
+ and need to believe to play the end 
+ you know i can be 
+ you cant be playing you 
+ whats 
+ my lifes i cant love 
+ the heartbeats 
+ your life i was so found you just the truth 
+ ill show me dont remember a smile 
+ who it i want it to all the morning 
+ can remember the world to come 
+ im going 
+ so i got the men on
+
+dating = 0.01
+violence = 0.05
+romantic = 0.05
+obscene = 0.01
+sadness = 0.05
+danceability = 0.5
+energy = 0.9
+acousticness = 0.1
+night/time = 0.05
+movement/places = 0.01
+light/visual perceptions = 0.01
+family/spiritual = 0.05
+Seed string = i

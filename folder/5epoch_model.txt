@@ -1,0 +1,38 @@
+i know where youre calling 
+ keep a million in your head 
+ that know where 
+ you can i am in a 
+ we found the guards 
+ and know i knew the record of a gook 
+ i am gonna make a plan and known to the heat of the day 
+ so we give a lover 
+ well im then it 
+ and we know i do my my 
+ i wanna feel 
+ i wont be 
+ love it real 
+ all my you dont even escape 
+ ill be going to 
+ but the alleyoop me you 
+ all all this 
+ just to see 
+ we live to me i got me 
+ all the only friend 
+ more and a pair of you 
+ we am so a lover 
+ its been the end of life im the men and be 
+ you know
+
+dating = 0.01
+violence = 0.05
+romantic = 0.05
+obscene = 0.01
+sadness = 0.05
+danceability = 0.5
+energy = 0.9
+acousticness = 0.1
+night/time = 0.05
+movement/places = 0.01
+light/visual perceptions = 0.01
+family/spiritual = 0.05
+Seed string = i

@@ -1,0 +1,34 @@
+i had my mind 
+ i was your man to the depths of a lover 
+ my one i know you know 
+ ill be right you know what i proved me 
+ we with you and the crowd 
+ i will want it to go and 
+ im playing my life its our health and i know 
+ you get 
+ i have it to the centers 
+ the forwards 
+ i be gone on the things i found 
+ i wanna dont forget it and i got 
+ all the sea is how i need that i did 
+ ill be calling the world 
+ you wanna have to only need to be all your name 
+ and i found you in the universe 
+ a little life all 
+ get the truth for this to out 
+ the real is one that that that its over 
+ i
+
+dating = 0.01
+violence = 0.05
+romantic = 0.05
+obscene = 0.01
+sadness = 0.05
+danceability = 0.5
+energy = 0.9
+acousticness = 0.1
+night/time = 0.05
+movement/places = 0.01
+light/visual perceptions = 0.01
+family/spiritual = 0.05
+Seed string = i

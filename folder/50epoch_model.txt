@@ -1,0 +1,36 @@
+i see that to make me 
+ love 
+ now im 
+ i am 
+ we get all the way i did 
+ i are time me 
+ i be in a knees 
+ ill lose you feeling 
+ you i will be on the side 
+ love you im all 
+ i remember i do it 
+ just you love 
+ i had i live to way you got the world used to you 
+ all you do this 
+ i could know you know 
+ love you see you like a way i found 
+ for me 
+ and when i remember you right and know i know that you 
+ but if you are 
+ let me you get it for the beat and my pit of the plan to be the man the men 
+ ill be for my way 
+ i know i come on the
+
+dating = 0.01
+violence = 0.05
+romantic = 0.05
+obscene = 0.01
+sadness = 0.05
+danceability = 0.5
+energy = 0.9
+acousticness = 0.1
+night/time = 0.05
+movement/places = 0.01
+light/visual perceptions = 0.01
+family/spiritual = 0.05
+Seed string = i

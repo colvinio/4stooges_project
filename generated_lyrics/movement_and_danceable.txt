@@ -1,0 +1,35 @@
+i said we make the town 
+ you might be a gun and and good the country man and more 
+ ill be the country is a night 
+ and a city where the street 
+ we ill see of a gun 
+ and the city 
+ and the dirt and 
+ well i got me on the house 
+ all me in the floor 
+ and it be a gun and not in my whip 
+ ill ride to 
+ i dont ride in his get the grass 
+ hit the city 
+ i dont be to the whole time is the country and way 
+ and my the other a ride to get up up it 
+ i be playing the marquee 
+ my go 
+ grew up up my ears 
+ i got the red guy 
+ and now we the road 
+ the men on up the
+
+dating = 0.01
+violence = 0.05
+romantic = 0.05
+obscene = 0.01
+sadness = 0.05
+danceability = 0.9
+energy = 0.9
+acousticness = 0.1
+night/time = 0.05
+movement/places = 0.5
+light/visual perceptions = 0.01
+family/spiritual = 0.05
+Seed string = i

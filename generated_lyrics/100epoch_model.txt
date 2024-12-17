@@ -1,0 +1,38 @@
+i said 
+ just now the men it 
+ and is like no the future in the men 
+ more than that 
+ all me they believe that i found it 
+ now you 
+ i dont life is in the night 
+ and leave my care i get playing me 
+ my favorite life 
+ i will wanna get on your life 
+ never feel it 
+ is the lover 
+ i can be long come in the morning 
+ never are powerful 
+ im gonna be and 
+ im one of my friend 
+ to who i got the other be going to take 
+ i wanna believe i might be 
+ what i knew that i never believe it 
+ i know that i had 
+ your man you know 
+ its a long one more than the 
+ now you get a situation 
+ in the way
+
+dating = 0.01
+violence = 0.05
+romantic = 0.05
+obscene = 0.01
+sadness = 0.05
+danceability = 0.5
+energy = 0.9
+acousticness = 0.1
+night/time = 0.05
+movement/places = 0.01
+light/visual perceptions = 0.01
+family/spiritual = 0.05
+Seed string = i

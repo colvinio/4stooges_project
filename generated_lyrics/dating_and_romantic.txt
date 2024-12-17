@@ -1,0 +1,15 @@
+i come babe baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby baby
+
+dating = 0.5
+violence = 0.05
+romantic = 0.5
+obscene = 0.01
+sadness = 0.05
+danceability = 0.5
+energy = 0.9
+acousticness = 0.1
+night/time = 0.05
+movement/places = 0.01
+light/visual perceptions = 0.01
+family/spiritual = 0.05
+Seed string = i

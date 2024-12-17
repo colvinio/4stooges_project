@@ -1,0 +1,38 @@
+i take me 
+ i wont be long 
+ we i dont be more away 
+ the night is 
+ right me 
+ my be right 
+ stay when i been away 
+ we leave your stay in all the right 
+ i take 
+ now its time 
+ i dont let me go 
+ no not you can be tonight 
+ oh i dont leave it 
+ ill keep your heart and right 
+ you could be a right and just to know 
+ im not 
+ i was a time to the time i will stay from the right for the pain on me 
+ if is right your mind 
+ fall on the way now 
+ waiting on me on night 
+ so i been you 
+ my time its right 
+ is i just never been in time 
+ and now the night i dont wanna be
+
+dating = 0.01
+violence = 0.05
+romantic = 0.05
+obscene = 0.01
+sadness = 0.5
+danceability = 0.5
+energy = 0.9
+acousticness = 0.1
+night/time = 0.5
+movement/places = 0.01
+light/visual perceptions = 0.01
+family/spiritual = 0.05
+Seed string = i

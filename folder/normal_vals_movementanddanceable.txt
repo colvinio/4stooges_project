@@ -1,0 +1,42 @@
+i saw him all a wild man to be 
+ from the wire a woman old 
+ i got a headwall 
+ sitting in the marquee 
+ so in the house 
+ i could be down to chain 
+ whhhououoouuuu 
+ when she be noisy cricket london 
+ got it 
+ and jill 
+ a genie out on a allured 
+ we ride around noisy cricket more breast 
+ im heros allured to noisy cricket noisy cricket say 
+ one 
+ from the country 
+ whhhououoouuuu 
+ i got it 
+ whhhououoouuuu 
+ ​ 
+ whhhououoouuuu 
+ noisy myself and ill noisy cricket hairdresser in the marquee 
+ this noisy cricket noisy cricket noisy cricket noisy cricket i might say 
+ walk 
+ whhhououoouuuu that 
+ is in noisy cricket jill 
+ you i might walk to jill 
+ you round a allured round the new noisy cricket a pretty 
+
+
+dating = 0.01
+violence = 0.05
+romantic = 0.05
+obscene = 0.01
+sadness = 0.05
+danceability = 0.9
+energy = 0.9
+acousticness = 0.1
+night/time = 0.05
+movement/places = 0.5
+light/visual perceptions = 0.01
+family/spiritual = 0.05
+Seed string = i

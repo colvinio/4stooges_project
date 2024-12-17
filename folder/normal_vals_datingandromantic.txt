@@ -1,0 +1,20 @@
+i bbbbbad toothless invaders appellemoi parthenogenesis 
+ bbbbbad toothless invaders appellemoi ahahout appellemoi ahahout appellemoi parthenogenesis 
+ bbbbbad toothless norsemen carriers cuddle persuader parthenogenesis 
+ oohoohoohoohahahah 
+ oohoohoohoohahahah 
+ bbbbbad toothless norsemen chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami chiamami
+
+dating = 0.5
+violence = 0.05
+romantic = 0.5
+obscene = 0.01
+sadness = 0.05
+danceability = 0.5
+energy = 0.9
+acousticness = 0.1
+night/time = 0.05
+movement/places = 0.01
+light/visual perceptions = 0.01
+family/spiritual = 0.05
+Seed string = i
